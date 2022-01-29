@@ -39,6 +39,7 @@ class Blockchain {
         // создаём первичный блок
         this.chain = [new Block(Date.now().toString())];
         this.difficulty = 1;
+        this.blockTime = 30000;
     }
 
     getLastBlock() {
@@ -53,6 +54,8 @@ class Blockchain {
         block.hash = block.getHash();
         block.mine(this.difficulty);
         this.chain.push(block);
+
+        this.difficulty += Date.now() - parseInt(this.getLastBlock().timestamp) < this.blockTime ? 1 : -1;
     }
 
     // проверка блокчейна
